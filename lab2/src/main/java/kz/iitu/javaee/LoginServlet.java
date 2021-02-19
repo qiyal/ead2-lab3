@@ -2,10 +2,7 @@ package kz.iitu.javaee;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.Enumeration;
 
@@ -37,10 +34,23 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("username", username);
             req.setAttribute("password", password);
 //            System.out.println("GO MAIN PAGE");
-            req.getSession().setAttribute("AUTH_STATUS", "TRUE");
-            resp.addCookie(new Cookie("username", username));
-            resp.addCookie(new Cookie("password", password));
-            resp.addCookie(new Cookie("AUTH_STATUS", "TRUE"));
+
+            HttpSession session = req.getSession();
+            session.setAttribute("AUTH_STATUS", username);
+
+            Cookie usernameCookie = new Cookie("username", username);
+            usernameCookie.setMaxAge(30 * 60);
+
+            Cookie passwordCookie = new Cookie("password", password);
+            usernameCookie.setMaxAge(30 * 60);
+
+            Cookie authStatusCookie = new Cookie("AUTH_STATUS", username);
+            usernameCookie.setMaxAge(30 * 60);
+
+            resp.addCookie(usernameCookie);
+            resp.addCookie(passwordCookie);
+            resp.addCookie(authStatusCookie);
+
             req.getRequestDispatcher("index.jsp").forward(req, resp);
         } else {
 //            System.out.println("GO LOGIN PAGE");

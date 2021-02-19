@@ -16,6 +16,7 @@ public class LoggingFilter implements Filter {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("1. LoggingFilter");
         Enumeration<String> requestParameterNames = servletRequest.getParameterNames();
         Cookie [] requestCookieNames = ((HttpServletRequest)servletRequest).getCookies();
 

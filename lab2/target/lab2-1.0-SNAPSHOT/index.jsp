@@ -12,18 +12,22 @@
 
     <%
         Cookie [] cookies = request.getCookies();
-        String username = "";
-        String password = "";
-        String status = "";
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("username")) {
-                username = cookie.getValue();
-            }
-            if (cookie.getName().equals("password")) {
-                password = cookie.getValue();
-            }
-            if (cookie.getName().equals("status")) {
-                status = cookie.getValue();
+        String username = null;
+        String password = null;
+
+
+        if (request.getAttribute("status") != null && request.getAttribute("status").equals("registration")) {
+            username = (String) request.getAttribute("username");
+            password = (String) request.getAttribute("password");
+        } else {
+            System.out.println("SET cokies");
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("username")) {
+                    username = cookie.getValue();
+                }
+                if (cookie.getName().equals("password")) {
+                    password = cookie.getValue();
+                }
             }
         }
     %>
@@ -39,7 +43,6 @@
         <div class="main-box">
             <p>Username: <span><%= username %></span></p>
             <p>Password: <span><%= password %></span></p>
-            <p>Status: <span><%= status %></span></p>
         </div>
     </div>
 
